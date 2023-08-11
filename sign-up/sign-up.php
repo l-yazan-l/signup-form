@@ -27,7 +27,6 @@ $password_hash = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
 $mysqli = require __DIR__."/database.php";
 
-// Check if the email already exists
 $checkEmailQuery = "SELECT id FROM user WHERE email = ?";
 $checkEmailStmt = $mysqli->prepare($checkEmailQuery);
 $checkEmailStmt->bind_param("s", $_POST['email']);
@@ -38,7 +37,6 @@ if ($checkEmailResult->num_rows > 0) {
     die("Email Already Taken");
 }
 
-// If email is not taken, proceed with insertion
 $insertQuery = "INSERT INTO user (name, email, password_hash) VALUES (?, ?, ?)";
 $insertStmt = $mysqli->prepare($insertQuery);
 $insertStmt->bind_param("sss", $_POST['name'], $_POST['email'], $password_hash);
